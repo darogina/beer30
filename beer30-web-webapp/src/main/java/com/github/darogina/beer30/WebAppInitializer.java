@@ -10,6 +10,8 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import java.util.TimeZone;
+
 /**
  * This class replaces the "old" web.xml and is automatically scanned at the application startup
  */
@@ -32,5 +34,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
         ServletRegistration.Dynamic h2Servlet = servletContext.addServlet("h2console", WebServlet.class);
         h2Servlet.setLoadOnStartup(2);
         h2Servlet.addMapping("/console/database/*");
+
+        TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
     }
 }

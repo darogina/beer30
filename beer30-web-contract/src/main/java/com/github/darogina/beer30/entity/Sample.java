@@ -1,11 +1,11 @@
-package com.github.darogina.beer30.model;
+package com.github.darogina.beer30.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Sample {
+public class Sample extends BaseEntity {
 
     private Long id;
     private String name;

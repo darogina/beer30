@@ -7,7 +7,7 @@ import org.resthub.web.controller.RepositoryBasedRestController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.github.darogina.beer30.model.Sample;
+import com.github.darogina.beer30.entity.Sample;
 import com.github.darogina.beer30.repository.SampleRepository;
 
 @Controller

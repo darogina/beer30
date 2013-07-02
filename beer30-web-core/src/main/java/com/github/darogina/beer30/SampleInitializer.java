@@ -5,7 +5,7 @@ import javax.inject.Named;
 
 import org.resthub.common.util.PostInitialize;
 
-import com.github.darogina.beer30.model.Sample;
+import com.github.darogina.beer30.entity.Sample;
 import com.github.darogina.beer30.repository.SampleRepository;
 
 @Named("sampleInitializer")
