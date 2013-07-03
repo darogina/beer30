@@ -29,6 +29,12 @@
             <artifactId>spring-security-config</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>org.resthub</groupId>
+            <artifactId>resthub-web-common</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
 </project>

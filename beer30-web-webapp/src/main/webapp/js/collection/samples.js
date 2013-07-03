@@ -4,7 +4,7 @@ define(['backbone', 'model/sample'], function (Backbone, Sample) {
 
         // Reference to this collection's model.
         model: Sample,
-        url:'api/sample'
+        url:'/api/v1/sample'
 
     });
     return Samples;

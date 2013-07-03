@@ -1,5 +1,7 @@
 package com.github.darogina.beer30.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,6 +10,7 @@ import javax.persistence.Id;
 public class Sample extends BaseEntity {
 
     private Long id;
+    @JsonView(SampleViewV1.class)
     private String name;
 
     public Sample() {
@@ -36,4 +39,7 @@ public class Sample extends BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public static interface SampleViewV1 {}
+    public static interface SampleViewV2 {}
 }
