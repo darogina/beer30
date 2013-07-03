@@ -1,5 +1,7 @@
 package com.github.darogina.beer30.controller.api;
 
+import com.github.darogina.beer30.entity.BaseEntity;
+import com.github.darogina.beer30.model.api.ApiModel;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
 import org.resthub.common.service.CrudService;
@@ -18,7 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Beer30ServiceBasedRestController<T, ID extends Serializable, S extends CrudService> extends ServiceBasedRestController<T, ID, S> {
+public abstract class Beer30ServiceBasedRestController<T extends ApiModel, ID extends Serializable, S extends CrudService> extends ServiceBasedRestController<T, ID, S> {
 
     Class<T> resourceClass;
     Class<ID> resourceIdClass;
@@ -27,17 +29,23 @@ public abstract class Beer30ServiceBasedRestController<T, ID extends Serializabl
 
     @Override
     public T create(@RequestBody T resource) {
-        return super.create(resource);    //To change body of overridden methods use File | Settings | File Templates.
+        return mapEntityToResourceClass((BaseEntity) super.create(resource));    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Override
     public T update(@PathVariable ID id, @RequestBody T resource) {
-        return super.update(id, resource);    //To change body of overridden methods use File | Settings | File Templates.
+        return mapEntityToResourceClass((BaseEntity) super.update(id, resource));    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Override
     public Iterable<T> findAllXml() {
-        return super.findAllXml();    //To change body of overridden methods use File | Settings | File Templates.
+        List<T> returnValues = new ArrayList<T>();
+
+        for (Object element : super.findAllXml()) {
+            returnValues.add(modelMapper.map(element, resourceClass));
+        }
+
+        return returnValues;
     }
 
     @Override
@@ -68,7 +76,7 @@ public abstract class Beer30ServiceBasedRestController<T, ID extends Serializabl
 
         List<T> returnValues = new ArrayList<T>();
         for (Object element : unmappedPage.getContent()) {
-            returnValues.add(modelMapper.map(element, resourceClass));
+            returnValues.add(mapEntityToResourceClass((BaseEntity) element));
         }
 
         return new PageImpl<T>(returnValues, pageRequest, unmappedPage.getTotalElements());
@@ -76,7 +84,11 @@ public abstract class Beer30ServiceBasedRestController<T, ID extends Serializabl
 
     @Override
     public T findById(@PathVariable ID id) {
-        return super.findById(id);    //To change body of overridden methods use File | Settings | File Templates.
+        return mapEntityToResourceClass((BaseEntity) super.findById(id));
+    }
+
+    protected T mapEntityToResourceClass(BaseEntity entity) {
+        return entity == null ? null : modelMapper.map(entity, resourceClass);
     }
 
     @PostConstruct

@@ -1,8 +1,10 @@
 package com.github.darogina.beer30.model.api.v1;
 
+import com.github.darogina.beer30.model.api.ApiModel;
+
 import java.util.Date;
 
-public class BaseModel {
+public class BaseModel implements ApiModel {
 
     public static final String API_VERSION = "v1";
 
