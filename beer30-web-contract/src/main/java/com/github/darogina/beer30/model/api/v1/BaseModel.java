@@ -16,6 +16,18 @@ public class BaseModel implements ApiModel {
     private String uuid;
     private String apiVersion = API_VERSION;
 
+    public BaseModel() {}
+
+    public BaseModel(int version, Date createDate, Date lastUpdate, String createdBy, String changedBy, String uuid) {
+        this.version = version;
+        this.createDate = createDate;
+        this.lastUpdate = lastUpdate;
+        this.createdBy = createdBy;
+        this.changedBy = changedBy;
+        this.uuid = uuid;
+        this.apiVersion = API_VERSION;
+    }
+
     public int getVersion() {
         return version;
     }
@@ -67,4 +79,5 @@ public class BaseModel implements ApiModel {
     public String getApiVersion() {
         return apiVersion;
     }
+
 }

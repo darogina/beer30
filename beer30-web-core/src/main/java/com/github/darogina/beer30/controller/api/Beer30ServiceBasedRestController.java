@@ -29,7 +29,7 @@ public abstract class Beer30ServiceBasedRestController<T extends ApiModel, ID ex
 
     @Override
     public T create(@RequestBody T resource) {
-        return mapEntityToResourceClass((BaseEntity) super.create(resource));    //To change body of overridden methods use File | Settings | File Templates.
+        return mapEntityToResourceClass((BaseEntity) service.create(toEntity(resource)));
     }
 
     @Override
@@ -99,4 +99,6 @@ public abstract class Beer30ServiceBasedRestController<T extends ApiModel, ID ex
         this.resourceIdClass = (Class<ID>) typeArguments[1];
         this.serviceClass = (Class<S>) typeArguments[2];
     }
+
+    public abstract BaseEntity toEntity(T model);
 }
