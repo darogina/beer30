@@ -27,6 +27,8 @@ public abstract class Beer30ServiceBasedRestController<T extends ApiModel, ID ex
     Class<S> serviceClass;
     protected ModelMapper modelMapper;
 
+    public abstract void setService(S service);
+
     @Override
     public T create(@RequestBody T resource) {
         return mapEntityToResourceClass((BaseEntity) service.create(toEntity(resource)));
