@@ -4,6 +4,7 @@ import com.github.darogina.beer30.entity.BaseEntity;
 import com.github.darogina.beer30.model.api.ApiModel;
 import org.jodah.typetools.TypeResolver;
 import org.modelmapper.ModelMapper;
+import org.resthub.common.exception.NotFoundException;
 import org.resthub.common.service.CrudService;
 import org.resthub.web.controller.ServiceBasedRestController;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,14 @@ public abstract class Beer30ServiceBasedRestController<T extends ApiModel, ID ex
 
     @Override
     public T update(@PathVariable ID id, @RequestBody T resource) {
-        return mapEntityToResourceClass((BaseEntity) super.update(id, resource));    //To change body of overridden methods use File | Settings | File Templates.
+        Assert.notNull(id, "id cannot be null");
+
+        T retrievedResource = this.findById(id);
+        if (retrievedResource == null) {
+            throw new NotFoundException();
+        }
+
+        return mapEntityToResourceClass((BaseEntity) this.service.update(toEntity(resource)));
     }
 
     @Override
@@ -44,7 +52,7 @@ public abstract class Beer30ServiceBasedRestController<T extends ApiModel, ID ex
         List<T> returnValues = new ArrayList<T>();
 
         for (Object element : super.findAllXml()) {
-            returnValues.add(modelMapper.map(element, resourceClass));
+            returnValues.add(mapEntityToResourceClass((BaseEntity) element));
         }
 
         return returnValues;
@@ -55,7 +63,7 @@ public abstract class Beer30ServiceBasedRestController<T extends ApiModel, ID ex
         List<T> returnValues = new ArrayList<T>();
 
         for (Object element : service.findAll()) {
-            returnValues.add(modelMapper.map(element, resourceClass));
+            returnValues.add(mapEntityToResourceClass((BaseEntity) element));
         }
 
         return returnValues;
@@ -87,6 +95,11 @@ public abstract class Beer30ServiceBasedRestController<T extends ApiModel, ID ex
     @Override
     public T findById(@PathVariable ID id) {
         return mapEntityToResourceClass((BaseEntity) super.findById(id));
+    }
+
+    @Override
+    public void delete(@PathVariable ID id) {
+        this.service.delete(id);
     }
 
     protected T mapEntityToResourceClass(BaseEntity entity) {
