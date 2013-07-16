@@ -1,6 +1,6 @@
 package com.github.darogina.beer30.model.api.v1;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class StatusType extends BaseModel {
 
@@ -16,7 +16,7 @@ public class StatusType extends BaseModel {
         this.description = description;
     }
 
-    public StatusType(int version, Date createDate, Date lastUpdate, String createdBy, String changedBy, String uuid, Long id, String name, String description) {
+    public StatusType(int version, DateTime createDate, DateTime lastUpdate, String createdBy, String changedBy, String uuid, Long id, String name, String description) {
         super(version, createDate, lastUpdate, createdBy, changedBy, uuid);
         this.id = id;
         this.name = name;

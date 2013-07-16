@@ -18,8 +18,8 @@ public class BeerStatus extends BaseEntity {
     @Column(name = "REASON", nullable = true)
     private String reason;
 
-    @OneToOne(optional = false, orphanRemoval = false)
-    @JoinColumn(name = "USER_ID")
+    @OneToOne(optional = true, orphanRemoval = false)
+    @JoinColumn(name = "USER_ID", nullable = true)
     private User user;
 
     public Long getId() {
@@ -48,5 +48,29 @@ public class BeerStatus extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BeerStatus)) return false;
+
+        BeerStatus that = (BeerStatus) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (reason != null ? !reason.equals(that.reason) : that.reason != null) return false;
+        if (statusType != null ? !statusType.equals(that.statusType) : that.statusType != null) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (statusType != null ? statusType.hashCode() : 0);
+        result = 31 * result + (reason != null ? reason.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        return result;
     }
 }

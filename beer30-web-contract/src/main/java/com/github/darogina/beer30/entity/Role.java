@@ -1,7 +1,8 @@
 package com.github.darogina.beer30.entity;
 
-import com.github.darogina.beer30.enums.UserRole;
+import com.github.darogina.beer30.enums.Authority;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -14,8 +15,17 @@ public class Role extends BaseEntity implements GrantedAuthority {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "AUTHORITY")
+    @Column(name = "AUTHORITY", nullable = false, unique = true)
     private String authority;
+
+    public Role() {
+        this(Authority.ROLE_USER);
+    }
+
+    public Role(Authority authority) {
+        Assert.notNull(authority, "authority is required; it must not be null");
+        this.authority = authority.name();
+    }
 
     public Long getId() {
         return id;
@@ -33,9 +43,23 @@ public class Role extends BaseEntity implements GrantedAuthority {
         this.authority = authority;
     }
 
-    @Transient
-    public UserRole getUserRole() {
-        return UserRole.valueOf(this.authority);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role)) return false;
+
+        Role role = (Role) o;
+
+        if (!authority.equals(role.authority)) return false;
+        if (!id.equals(role.id)) return false;
+
+        return true;
     }
 
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + authority.hashCode();
+        return result;
+    }
 }

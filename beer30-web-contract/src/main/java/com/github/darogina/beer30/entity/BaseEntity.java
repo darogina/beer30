@@ -1,15 +1,19 @@
 package com.github.darogina.beer30.entity;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
+import org.joda.time.DateTime;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.UUID;
 
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+@TypeDef(name = "jodaDateTime", defaultForType = DateTime.class, typeClass = PersistentDateTime.class)
+public abstract class BaseEntity implements Serializable {
 
     @Transient
     private static final long serialVersionUID = 8277812532939023805L;
@@ -21,18 +25,18 @@ public class BaseEntity implements Serializable {
     @Column(name = "VERSION")
     private int version = 0;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_DATE", nullable = false)
-    private Date createDate;
+    @Type(type = "jodaDateTime")
+    private DateTime createDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATE", nullable = false)
-    private Date lastUpdate;
+    @Type(type = "jodaDateTime")
+    private DateTime lastUpdate;
 
-    @Column(name = "CREATED_BY", nullable = true)
+    @Column(name = "CREATED_BY", nullable = false)
     private String createdBy;
 
-    @Column(name = "CHANGED_BY", nullable = true)
+    @Column(name = "CHANGED_BY", nullable = false)
     private String changedBy;
 
     @Column(name = "UUID", nullable = false, unique = true)
@@ -46,19 +50,19 @@ public class BaseEntity implements Serializable {
         this.version = version;
     }
 
-    public Date getCreateDate() {
-        return (Date) createDate.clone();
+    public DateTime getCreateDate() {
+        return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(DateTime createDate) {
         this.createDate = createDate;
     }
 
-    public Date getLastUpdate() {
-        return (Date) lastUpdate.clone();
+    public DateTime getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(DateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
@@ -92,7 +96,7 @@ public class BaseEntity implements Serializable {
     @PrePersist
     protected void onCreate() {
         changedBy = createdBy = getUserFromSecurityContext();
-        lastUpdate = createDate = new Date();
+        lastUpdate = createDate = new DateTime();
 
         // Generate a new UUID for the entity
         getUuid();
@@ -101,7 +105,7 @@ public class BaseEntity implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         changedBy = getUserFromSecurityContext();
-        lastUpdate = new Date();
+        lastUpdate = new DateTime();
     }
 
     @Transient
@@ -120,4 +124,7 @@ public class BaseEntity implements Serializable {
 
         return AUTOMATED_USER;
     }
+
+    public abstract boolean equals(Object o);
+    public abstract int hashCode();
 }

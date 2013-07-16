@@ -1,16 +1,19 @@
 package com.github.darogina.beer30.model.api.v1;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer;
 import com.github.darogina.beer30.model.api.ApiModel;
-
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class BaseModel implements ApiModel {
 
     public static final String API_VERSION = "v1";
 
     private int version = 0;
-    private Date createDate;
-    private Date lastUpdate;
+    @JsonSerialize(using = DateTimeSerializer.class)
+    private DateTime createDate;
+    @JsonSerialize(using = DateTimeSerializer.class)
+    private DateTime lastUpdate;
     private String createdBy;
     private String changedBy;
     private String uuid;
@@ -18,7 +21,7 @@ public class BaseModel implements ApiModel {
 
     public BaseModel() {}
 
-    public BaseModel(int version, Date createDate, Date lastUpdate, String createdBy, String changedBy, String uuid) {
+    public BaseModel(int version, DateTime createDate, DateTime lastUpdate, String createdBy, String changedBy, String uuid) {
         this.version = version;
         this.createDate = createDate;
         this.lastUpdate = lastUpdate;
@@ -36,19 +39,19 @@ public class BaseModel implements ApiModel {
         this.version = version;
     }
 
-    public Date getCreateDate() {
+    public DateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(DateTime createDate) {
         this.createDate = createDate;
     }
 
-    public Date getLastUpdate() {
+    public DateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(DateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

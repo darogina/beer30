@@ -1,16 +1,14 @@
 package com.github.darogina.beer30;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
 import org.h2.server.web.WebServlet;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import java.util.TimeZone;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 /**
  * This class replaces the "old" web.xml and is automatically scanned at the application startup
@@ -35,6 +33,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
         h2Servlet.setLoadOnStartup(2);
         h2Servlet.addMapping("/console/database/*");
 
-        TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
+//        TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
     }
 }

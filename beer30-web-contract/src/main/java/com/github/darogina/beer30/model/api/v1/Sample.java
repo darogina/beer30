@@ -1,6 +1,6 @@
 package com.github.darogina.beer30.model.api.v1;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class Sample extends BaseModel {
 
@@ -12,7 +12,7 @@ public class Sample extends BaseModel {
         this.name = name;
     }
 
-    public Sample(int version, Date createDate, Date lastUpdate, String createdBy, String changedBy, String uuid, String name) {
+    public Sample(int version, DateTime createDate, DateTime lastUpdate, String createdBy, String changedBy, String uuid, String name) {
         super(version, createDate, lastUpdate, createdBy, changedBy, uuid);
         this.name = name;
     }

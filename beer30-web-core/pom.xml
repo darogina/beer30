@@ -20,6 +20,7 @@
             <groupId>org.resthub</groupId>
             <artifactId>resthub-jpa</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.resthub</groupId>
             <artifactId>resthub-web-server</artifactId>
@@ -37,9 +38,18 @@
         </dependency>
 
         <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.core</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.jodah</groupId>
             <artifactId>typetools</artifactId>
-            <version>0.3.0</version>
         </dependency>
 
         <dependency>
