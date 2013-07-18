@@ -58,6 +58,8 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<LinkedAccount> linkedAccounts = new ArrayList<LinkedAccount>();
 
+    public User() {}
+
     public User(String username, String password, String email, String firstName, String lastName, Collection<LinkedAccount> linkedAccounts, Collection<? extends Role> authorities) {
         Assert.hasText(username, "username must have text; it must not be null, empty, or blank");
         Assert.hasText(email, "email must have text; it must not be null, empty, or blank");

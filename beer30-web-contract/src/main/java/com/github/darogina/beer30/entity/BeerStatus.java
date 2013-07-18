@@ -11,14 +11,14 @@ public class BeerStatus extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, optional = false, orphanRemoval = false)
-    @JoinColumn(name = "STATUS_TYPE_ID")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "STATUS_TYPE_ID", nullable = false)
     private StatusType statusType;
 
     @Column(name = "REASON", nullable = true)
     private String reason;
 
-    @OneToOne(optional = true, orphanRemoval = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "USER_ID", nullable = true)
     private User user;
 
